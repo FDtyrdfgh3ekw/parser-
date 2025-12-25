@@ -1,0 +1,17 @@
+include ../common.mak
+
+SHELL = bash
+VPATH := ..
+
+# модульные тесты Lua
+lua-test: $(BASELISP) stream.lsp parser.lsp lua.lsp $(TEST) lua-test.lsp
+	make -C ../../test /tmp/lisp
+	cat $^ | /tmp/lisp
+#полный тест лексера Python
+lexer-python-test: lexer_python.lsp test-lexer_python.lsp
+	cat $^ >/tmp/all.lsp
+	sbcl --script /tmp/all.lsp
+#полный тест парсера Python
+parser-python-test: python-parser.lsp python-parser-test.lsp
+	cat $^ >/tmp/all.lsp
+	sbcl --script /tmp/all.lsp
